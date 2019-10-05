@@ -7,7 +7,7 @@
 import random
 import time 
 
-class aquario:
+class portao:
   def __init__(self,nome, aberto = True, lembrar = False):
     self.nome = nome
     self.cond = cond
