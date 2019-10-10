@@ -21,7 +21,7 @@ cliente = config_socket(host,port)
 aquario2 = Aquario('Aquario2',comida = 15)
 
 time.sleep(2)
-cliente.sendto(p.dumps('aq2'),('',5000))
+cliente.sendto(p.dumps(['1','aq2']),('',5000))
 funcoes = ['get_nome','get_estado_luz','set_estado_luz','get_qtd_comida','set_estado_comer','set_estado_addcomida','get_estado_filtro']
     
 
@@ -30,13 +30,17 @@ while True:
   try:
     data,address = cliente.recvfrom(1024)
     data = p.loads(data)
-    if data[0] == 'aq2' and data[1] == 'list':
+
+    if data[1] == 'aq2' and data[2] == 'list':
       print(address)
-      time.sleep(1)
-      cliente.sendto(p.dumps('aq2'),('',5000))
-    elif data[0] == 'aq2' and data[1] in funcoes:
-      msg = getattr(aquario2,data[1])
-      cliente.sendto(p.dumps(msg),('',address)) 
+      msg = ['2',funcoes]
+      cliente.sendto(p.dumps(msg),('',5000))
+
+    elif data[1] == 'aq2' and data[2] in funcoes:
+      print(address)
+      msg = ['2',getattr(aquario2,data[2])]
+      cliente.sendto(p.dumps(msg),('',5000)) 
+
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:

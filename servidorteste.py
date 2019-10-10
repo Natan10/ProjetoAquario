@@ -38,30 +38,35 @@ msg = p.dumps("aquario1")
 ##2.1 (nome dispositivo)
 #3.Receber algum dado dos dispositivos
 ##3.1 (nome dispositivo,função)
+### Mensagens (msg,tipo)
 
-
+buffer = []
 dispositivos = []
 servidor = config_serve()
-servidor_thread = Descoberta(servidor,dispositivos)
+servidor_thread = Descoberta(servidor,dispositivos,buffer)
 servidor_thread.start()
 
 print("Iniciando Servidor...")
 print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
 while True:
+  buffer.clear()
   print("Opções = 4")
   print("====================================")
   comando = input("Digite a opção:")
   try:
     if comando == '1':
       print(f"Dispositivos:{dispositivos}")
-      
+
     elif comando == '2':
-      msg = [input("Digite o nome do disp:"),'list']
+      msg = ['2',input("Digite o nome do disp:"),'list']
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+      print(buffer)
+      
     elif comando == '3':
-      msg = [input("Digite o nome do disp:"),input("Digite a função:")]
+      msg = ['2',input("Digite o nome do disp:"),input("Digite a função:")]
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
-      print(rodando(servidor))
+      print(buffer)
+      
     elif comando == '4':
       print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
     
