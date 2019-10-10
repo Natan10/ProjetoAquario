@@ -31,7 +31,9 @@ while True:
     data,address = cliente.recvfrom(1024)
     data = p.loads(data)
     if data[0] == 'aq2' and data[1] == 'list':
-      cliente.sendto(p.dumps(funcoes),('',address))
+      print(address)
+      time.sleep(1)
+      cliente.sendto(p.dumps('aq2'),('',5000))
     elif data[0] == 'aq2' and data[1] in funcoes:
       msg = getattr(aquario2,data[1])
       cliente.sendto(p.dumps(msg),('',address)) 
@@ -39,4 +41,4 @@ while True:
     print(msg)
   except KeyboardInterrupt:
     print("Encerrando Aquario2...")
-  break    
+    break    

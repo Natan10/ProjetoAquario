@@ -13,9 +13,15 @@ class Descoberta(threading.Thread):
   def run(self):
     print("Iniciando thread...")
     while True:
-      data,address = self.server.recvfrom(1024)
-      data = p.loads(data)
-      if data not in self.dispositivos:
-        self.dispositivos.append(data)
-      time.sleep(0.5)
-      print('----thread ----')
+      try:
+        data,address = self.server.recvfrom(1024)
+        data = p.loads(data)
+        if data not in self.dispositivos:
+          self.dispositivos.append(data)
+        elif not data:
+          break
+      except OSError as msg:
+        print(f"Error:{msg}")
+      except KeyboardInterrupt:
+        print("Finalizando thread...")
+        break
