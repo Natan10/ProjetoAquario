@@ -7,7 +7,7 @@
 import random
 import time 
 
-class portao:
+class Portao:
   def __init__(self,nome, aberto = True, lembrar = False):
     self.nome = nome
     self.cond = cond
@@ -33,7 +33,7 @@ class portao:
 
   def lembrar(self):
     if self.aberto == True: 
-      time_start = time.time();
+      time_start = time.time()
       while(self.aberto) :
         if((time.time() - time_start) > 120):
           return("O Portao está aberto!")

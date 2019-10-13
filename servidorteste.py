@@ -7,10 +7,10 @@ import pickle as p
 sys.path.append('./Classes')
 from descoberta import Descoberta
 
-host = ""
+host = "localhost"
 port = 5000
 
-def config_serve(host="",port=5000):
+def config_serve(host="localhost",port=5000):
   server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
   server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
   server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -47,10 +47,12 @@ servidor_thread = Descoberta(servidor,dispositivos,buffer)
 servidor_thread.start()
 
 print("Iniciando Servidor...")
-print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
+#print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
 while True:
   buffer.clear()
-  print("Opções = 4")
+  #print("Opções = 4")
+  print("====================================")
+  print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
   print("====================================")
   comando = input("Digite a opção:")
   try:
@@ -60,11 +62,13 @@ while True:
     elif comando == '2':
       msg = ['2',input("Digite o nome do disp:"),'list']
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+      time.sleep(0.50)
       print(buffer)
       
     elif comando == '3':
       msg = ['2',input("Digite o nome do disp:"),input("Digite a função:")]
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+      time.sleep(0.50)
       print(buffer)
       
     elif comando == '4':
