@@ -5,7 +5,7 @@ import pickle as p
 sys.path.append('./Classes')
 from aquario import Aquario
 
-host = 'localhost'
+host = ''
 port = 5680
 
 def config_socket(host,port):
@@ -39,12 +39,10 @@ while True:
       msg = ['1','aq2']
       cliente.sendto(p.dumps(msg),('',5000))
 
-    elif data[1] == 'aq2' and data[2] in funcoes:
-      aux = funcoes[funcoes.index(data[2])]
-      if aux ==  
+    elif data[1] == 'aq2' and data[2] in funcoes: 
       print(address)
       msg = ['2',getattr(aquario2,data[2])]
-      cliente.sendto(p.dumps(msg),('localhost',5000)) 
+      cliente.sendto(p.dumps(msg),('',5000)) 
 
   except OSError as msg:
     print(msg)
