@@ -8,7 +8,7 @@ import random
 import time 
 
 class Aquario:
-  def __init__(self,nome,luz = True,comida = 10):
+  def __init__(self,nome,luz = 1,comida = 10):
     self.nome = nome
     self.luz = luz
     self.comida = comida
@@ -17,7 +17,7 @@ class Aquario:
     return self.nome
 
   def get_estado_luz(self):
-    if self.luz == True:
+    if self.luz == 1:
       return "Ligada" 
     else:
       return "Desligada"
@@ -41,7 +41,7 @@ class Aquario:
     self.comida += value
 
   def get_estado_filtro(self):
-    return random.random()
+    return f"{round(random.random(),2)*100}% de O2" 
   
   def get_estado_aquario(self):
-    return [self.nome,self.luz,self.comida]
+    return [self.nome,self.luz,self.comida,self.get_estado_filtro()]

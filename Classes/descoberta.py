@@ -5,11 +5,12 @@ import time
 
 
 class Descoberta(threading.Thread):
-  def __init__(self,server,dispositivos,buffer):
+  def __init__(self,server,dispositivos,buffer,data):
     threading.Thread.__init__(self)
     self.server = server
     self.dispositivos = dispositivos
     self.buffer = buffer
+    self.data = data
   
   def run(self):
     while True:
@@ -23,7 +24,9 @@ class Descoberta(threading.Thread):
             break
         elif data[0] == '2':
           self.buffer.append(data[1])
-          
+        elif data[0] == 'data':
+          self.data.append(data[1])
+
       except OSError as msg:
         print(f"Error:{msg}")
       except KeyboardInterrupt:

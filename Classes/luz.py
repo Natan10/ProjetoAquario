@@ -7,8 +7,8 @@
 import random
 import time 
 
-class luz:
-  def __init__(self,nome, ligada = False):
+class Luz:
+  def __init__(self,nome, ligada = 0):
     self.nome = nome
     self.ligada = ligada
   
@@ -16,16 +16,15 @@ class luz:
     return self.nome 
 
   def get_estado_luz(self):
-    if self.ligada == True:
+    if self.ligada == 1:
       return "Ligada" 
     else:
       return "Desliga"
   
-  def set_ativar(self):
-    if self.ligada == True:
-      #função para fechar o portao
-      self.ligada = False:
-      return "A luz foi ligada" 
+  def set_estado_luz(self):
+    if self.ligada == 1:
+      self.ligada = 0
+      return "Luz desligada!" 
     else:
-      self.ligada = True:
-      return "A luz foi desliga"
+      self.ligada = 1
+      return "Luz ligada!"
