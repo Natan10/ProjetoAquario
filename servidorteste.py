@@ -25,10 +25,11 @@ def config_serve(host="",port=5000):
 ##3.1 (nome dispositivo,função)
 ### Mensagens (msg,tipo)
 
+data = []
 buffer = []
 dispositivos = []
 servidor = config_serve()
-servidor_thread = Descoberta(servidor,dispositivos,buffer)
+servidor_thread = Descoberta(servidor,dispositivos,buffer,data)
 servidor_thread.start()
 opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes"
 print("Iniciando Servidor...")
@@ -36,6 +37,9 @@ print("Iniciando Servidor...")
 while True:
   buffer.clear()
   print("Op = 5")
+  if data:
+    print(f"Dados Aquario: {data}")
+    data.clear()
   print("====================================")
   comando = input("Digite a opção:")
   try:

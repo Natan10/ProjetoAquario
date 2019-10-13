@@ -1,12 +1,14 @@
 import sys
 import socket
+import threading
 import time
 import pickle as p 
 sys.path.append('./Classes')
-from portao import Portao
+from luz import Luz
 
 host = ''
 port = 5680
+
 
 def config_socket(host,port):
   meia = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -15,26 +17,48 @@ def config_socket(host,port):
   return meia
 
 
+
 cliente = config_socket(host,port)
-aquario1 = Aquario('Portao1')
+luz = Luz('Lampada')
 
-time.sleep(2)
-cliente.sendto(p.dumps('aq1'),('',5000))
-funcoes = ['get_nome','get_estado_luz','set_estado_luz','get_qtd_comida','set_estado_comer','set_estado_addcomida','get_estado_filtro']
-    
+#Se idetificando para o servidor
+cliente.sendto(p.dumps(['1','lamp1']),('',5000))
+funcoes = ['1:get_nome','2:get_estado_luz','3:set_estado_luz']
 
-print("Iniciando Aquario1...")
+
+print("Iniciando Lampada...")
+
 while True:
-  try:
+  try: 
     data,address = cliente.recvfrom(1024)
     data = p.loads(data)
-    if data[0] == 'aq1' and data[1] == 'list':
-      cliente.sendto(p.dumps(funcoes),('',address))
-    elif data[0] == 'aq1' and data[1] in funcoes:
-      msg = getattr(aquario,data[1])
-      cliente.sendto(p.dumps(msg),('',address)) 
+
+    if data[1] == 'lamp1' and data[2] == 'list':
+      print(address) 
+      msg = ['2',funcoes]
+      cliente.sendto(p.dumps(msg),('',5000))
+
+    elif data[0] == '1' and data[1] == 'ping':
+      print(address)
+      msg = ['1','lamp1']
+      cliente.sendto(p.dumps(msg),('',5000))
+
+    elif data[1] == 'lamp1':
+      print(address)
+      if data[2] == '1':
+        msg = ['2',luz.nome]
+        cliente.sendto(p.dumps(msg),('',5000)) 
+      
+      elif data[2] == '2':
+        msg = ['2',luz.get_estado_luz()]
+        cliente.sendto(p.dumps(msg),('',5000))
+      
+      elif data[2] == '3':
+        msg = ['2',luz.set_estado_luz()]
+        cliente.sendto(p.dumps(msg),('',5000))
+
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:
-    print("Encerrando Aquario1...")
-  break    
+    print("Encerrando Aquario2...")
+    break    

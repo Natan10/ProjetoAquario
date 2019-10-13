@@ -41,7 +41,7 @@ class Aquario:
     self.comida += value
 
   def get_estado_filtro(self):
-    return f"{random.random()*100}% de O2" 
+    return f"{round(random.random(),2)*100}% de O2" 
   
   def get_estado_aquario(self):
     return [self.nome,self.luz,self.comida,self.get_estado_filtro()]
