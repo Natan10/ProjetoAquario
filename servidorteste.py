@@ -7,10 +7,10 @@ import pickle as p
 sys.path.append('./Classes')
 from descoberta import Descoberta
 
-host = ""
+host = "localhost"
 port = 5000
 
-def config_serve(host="",port=5000):
+def config_serve(host="localhost",port=5000):
   server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
   server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
   server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -32,10 +32,12 @@ servidor_thread = Descoberta(servidor,dispositivos,buffer)
 servidor_thread.start()
 opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes"
 print("Iniciando Servidor...")
-print(opcoes)
+
+#print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
 while True:
   buffer.clear()
-  print("Opções = 5")
+  print("====================================")
+  print(opcoes)
   print("====================================")
   comando = input("Digite a opção:")
   try:

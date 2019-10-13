@@ -3,8 +3,7 @@ import socket
 import time
 import pickle as p 
 sys.path.append('./Classes')
-from aquario import Aquario
-
+from portao import Portao
 
 host = ''
 port = 5680
@@ -17,7 +16,7 @@ def config_socket(host,port):
 
 
 cliente = config_socket(host,port)
-aquario1 = Aquario('Aquario1',comida = 10)
+aquario1 = Aquario('Portao1')
 
 time.sleep(2)
 cliente.sendto(p.dumps('aq1'),('',5000))

@@ -5,10 +5,8 @@ import pickle as p
 sys.path.append('./Classes')
 from aquario import Aquario
 
-host = ''
+host = 'localhost'
 port = 5680
-
-
 
 def config_socket(host,port):
   meia = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -46,7 +44,7 @@ while True:
       if aux ==  
       print(address)
       msg = ['2',getattr(aquario2,data[2])]
-      cliente.sendto(p.dumps(msg),('',5000)) 
+      cliente.sendto(p.dumps(msg),('localhost',5000)) 
 
   except OSError as msg:
     print(msg)
