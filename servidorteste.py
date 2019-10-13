@@ -32,13 +32,12 @@ servidor_thread = Descoberta(servidor,dispositivos,buffer)
 servidor_thread.start()
 opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes"
 print("Iniciando Servidor...")
-
+print(opcoes)
 #print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
 while True:
   buffer.clear()
   print("====================================")
-  print(opcoes)
-  print("====================================")
+
   comando = input("Digite a opção:")
   try:
     if comando == '1':
@@ -61,13 +60,14 @@ while True:
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
       
     elif comando == '5':
-      print(opcoes)
+      print(opcoes)      
 
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:
     print("Finalizando servidor...")
     break
+  print("====================================")
   
 
 
