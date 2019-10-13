@@ -1,8 +1,9 @@
 import sys
 import socket
+import time
 import pickle as p 
 sys.path.append('./Classes')
-from aquario import aquario
+from aquario import Aquario
 
 
 host = ''
@@ -16,16 +17,25 @@ def config_socket(host,port):
 
 
 cliente = config_socket(host,port)
-aquario1 = aquario('Aquario1',comida = 10)
+aquario1 = Aquario('Aquario1',comida = 10)
 
-while True:  
-  data,address = cliente.recvfrom(1024)
-  data = p.loads(data)
-  if data == 'aquario1':
-    print(f"Address:{address}")
-    msg = p.dumps(aquario1.get_nome())
-    cliente.sendto(msg,address)
-    print("Mensagem enviada!")
+time.sleep(2)
+cliente.sendto(p.dumps('aq1'),('',5000))
+funcoes = ['get_nome','get_estado_luz','set_estado_luz','get_qtd_comida','set_estado_comer','set_estado_addcomida','get_estado_filtro']
+    
 
-  
-  
+print("Iniciando Aquario1...")
+while True:
+  try:
+    data,address = cliente.recvfrom(1024)
+    data = p.loads(data)
+    if data[0] == 'aq1' and data[1] == 'list':
+      cliente.sendto(p.dumps(funcoes),('',address))
+    elif data[0] == 'aq1' and data[1] in funcoes:
+      msg = getattr(aquario,data[1])
+      cliente.sendto(p.dumps(msg),('',address)) 
+  except OSError as msg:
+    print(msg)
+  except KeyboardInterrupt:
+    print("Encerrando Aquario1...")
+  break    

@@ -7,7 +7,7 @@
 import random
 import time 
 
-class aquario:
+class Aquario:
   def __init__(self,nome,luz = True,comida = 10):
     self.nome = nome
     self.luz = luz
