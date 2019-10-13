@@ -17,21 +17,6 @@ def config_serve(host="",port=5000):
   server.bind((host, port))
   return server
 
-def rodando(server):
-  data,address = server.recvfrom(2048)
-  data = p.loads(data)
-  return data
-'''
-def func_ping(server,msg,port=5680):
-  server.sendto(msg,('<broadcast>',port))
-
-
-dispositivos = []
-servidor = config_serve()
-worker1 = Descoberta(servidor,dispositivos)
-worker1.start()
-msg = p.dumps("aquario1")
-'''
 
 # 1.Listar Dispositivos conectados
 # 2.Listar funções de um dispositivo especifico
@@ -45,12 +30,12 @@ dispositivos = []
 servidor = config_serve()
 servidor_thread = Descoberta(servidor,dispositivos,buffer)
 servidor_thread.start()
-
+opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes"
 print("Iniciando Servidor...")
-print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
+print(opcoes)
 while True:
   buffer.clear()
-  print("Opções = 4")
+  print("Opções = 5")
   print("====================================")
   comando = input("Digite a opção:")
   try:
@@ -60,16 +45,22 @@ while True:
     elif comando == '2':
       msg = ['2',input("Digite o nome do disp:"),'list']
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+      time.sleep(0.5)
       print(buffer)
       
     elif comando == '3':
       msg = ['2',input("Digite o nome do disp:"),input("Digite a função:")]
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+      time.sleep(0.5)
       print(buffer)
-      
-    elif comando == '4':
-      print("Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados")
     
+    elif comando == '4':
+      msg = ['1',"nd"]
+      servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+      
+    elif comando == '5':
+      print(opcoes)
+
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:

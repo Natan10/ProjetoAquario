@@ -22,8 +22,8 @@ class Descoberta(threading.Thread):
           elif not data:
             break
         elif data[0] == '2':
-          self.buffer.append(data) 
-
+          self.buffer.append(data[1])
+          
       except OSError as msg:
         print(f"Error:{msg}")
       except KeyboardInterrupt:

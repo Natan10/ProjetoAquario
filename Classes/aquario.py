@@ -43,3 +43,5 @@ class Aquario:
   def get_estado_filtro(self):
     return random.random()
   
+  def get_estado_aquario(self):
+    return [self.nome,self.luz,self.comida]
