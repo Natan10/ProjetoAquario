@@ -6,7 +6,7 @@ import pickle as p
 sys.path.append('./Classes')
 from luz import Luz
 
-host = ''
+host = 'localhost'
 port = 5680
 
 
@@ -22,7 +22,7 @@ cliente = config_socket(host,port)
 luz = Luz('Lampada')
 
 #Se idetificando para o servidor
-cliente.sendto(p.dumps(['1','lamp1']),('',5000))
+cliente.sendto(p.dumps(['1','lamp1']),('localhost',5000))
 funcoes = ['1:get_nome','2:get_estado_luz','3:set_estado_luz']
 
 
@@ -36,26 +36,26 @@ while True:
     if data[1] == 'lamp1' and data[2] == 'list':
       print(address) 
       msg = ['2',funcoes]
-      cliente.sendto(p.dumps(msg),('',5000))
+      cliente.sendto(p.dumps(msg),('localhost',5000))
 
     elif data[0] == '1' and data[1] == 'ping':
       print(address)
       msg = ['1','lamp1']
-      cliente.sendto(p.dumps(msg),('',5000))
+      cliente.sendto(p.dumps(msg),('localhost',5000))
 
     elif data[1] == 'lamp1':
       print(address)
       if data[2] == '1':
         msg = ['2',luz.nome]
-        cliente.sendto(p.dumps(msg),('',5000)) 
+        cliente.sendto(p.dumps(msg),('localhost',5000)) 
       
       elif data[2] == '2':
         msg = ['2',luz.get_estado_luz()]
-        cliente.sendto(p.dumps(msg),('',5000))
+        cliente.sendto(p.dumps(msg),('localhost',5000))
       
       elif data[2] == '3':
         msg = ['2',luz.set_estado_luz()]
-        cliente.sendto(p.dumps(msg),('',5000))
+        cliente.sendto(p.dumps(msg),('localhost',5000))
 
   except OSError as msg:
     print(msg)
