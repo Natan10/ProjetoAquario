@@ -5,7 +5,7 @@ import pickle as p
 sys.path.append('./Classes')
 from portao import Portao
 
-host = ''
+host = 'localhost'
 port = 5680
 
 def config_socket(host,port):
@@ -16,23 +16,30 @@ def config_socket(host,port):
 
 
 cliente = config_socket(host,port)
-aquario1 = Aquario('Portao1')
+aquario1 = Portao('Portao1')
 
 time.sleep(2)
-cliente.sendto(p.dumps('aq1'),('',5000))
+cliente.sendto(p.dumps('pt1'),('localhost',5000))
 funcoes = ['get_nome','get_estado_luz','set_estado_luz','get_qtd_comida','set_estado_comer','set_estado_addcomida','get_estado_filtro']
-    
+func = ['nome','estado']    
 
-print("Iniciando Aquario1...")
+print("Iniciando Portao1...")
 while True:
   try:
     data,address = cliente.recvfrom(1024)
     data = p.loads(data)
-    if data[0] == 'aq1' and data[1] == 'list':
-      cliente.sendto(p.dumps(funcoes),('',address))
-    elif data[0] == 'aq1' and data[1] in funcoes:
+
+    if data[0] == 'pt1' and data[1] == 'list':
+
+      cliente.sendto(p.dumps(funcoes),('localhost',address))
+    elif data[0] == 'pt1' and data[1] in funcoes:
       msg = getattr(aquario,data[1])
-      cliente.sendto(p.dumps(msg),('',address)) 
+      cliente.sendto(p.dumps(msg),('localhost',address)) 
+    elif data[0] == '1' and data[1] == 'nd':
+      print(address)
+      msg = ['1','pt1']
+      cliente.sendto(p.dumps(msg),('localhost',5000))
+
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:

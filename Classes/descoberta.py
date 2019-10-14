@@ -10,7 +10,9 @@ class Descoberta(threading.Thread):
     self.server = server
     self.dispositivos = dispositivos
     self.buffer = buffer
-  
+#cliente.sendto(p.dumps(['1','aq2']),('localhost',5000))
+# data <- p.dumps(['1','aq2'])
+# address <- ('localhost',5000)
   def run(self):
     while True:
       try:

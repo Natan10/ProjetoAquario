@@ -26,7 +26,7 @@ def config_serve(host="localhost",port=5000):
 ### Mensagens (msg,tipo)
 
 buffer = []
-dispositivos = []
+dispositivos = [] # lista com os dispositivos já conectados no servidor
 servidor = config_serve()
 servidor_thread = Descoberta(servidor,dispositivos,buffer)
 servidor_thread.start()

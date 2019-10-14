@@ -8,9 +8,9 @@ import random
 import time 
 
 class Portao:
-  def __init__(self,nome, aberto = True, lembrar = False):
+  def __init__(self,nome, aberto = False, lembrar = False):
     self.nome = nome
-    self.cond = cond
+    self.aberto = aberto
     self.lembrar = lembrar
   
   def get_nome(self):
@@ -21,16 +21,16 @@ class Portao:
       return "Aberto" 
     else:
       return "Fechado"
-  
-  def set_ativar(self):
-    if self.aberto == True:
+ ### 
+#  def set_ativar(self):
+#    if self.aberto == True:
       #função para fechar o portao
-      self.aberto = False:
-      return "O portão foi aberto" 
-    else:
-      self.aberto = True:
-      return "O portão foi fechado"
-
+#      self.aberto = False:
+#      return "O portão foi aberto" 
+#    else:
+#      self.aberto = True:
+#      return "O portão foi fechado"
+###
   def lembrar(self):
     if self.aberto == True: 
       time_start = time.time()

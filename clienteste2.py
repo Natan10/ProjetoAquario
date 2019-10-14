@@ -18,7 +18,7 @@ def config_socket(host,port):
 cliente = config_socket(host,port)
 aquario2 = Aquario('Aquario2',comida = 15)
 
-cliente.sendto(p.dumps(['1','aq2']),('',5000))
+cliente.sendto(p.dumps(['1','aq2']),('localhost',5000))
 
 funcoes = ['get_nome','get_estado_luz','set_estado_luz','get_qtd_comida','set_estado_comer','set_estado_addcomida','get_estado_filtro']
 func = ['nome','comida','luz']
@@ -32,16 +32,16 @@ while True:
     if data[1] == 'aq2' and data[2] == 'list':
       print(address) 
       msg = ['2',func]
-      cliente.sendto(p.dumps(msg),('',5000))
+      cliente.sendto(p.dumps(msg),('localhost',5000))
 
     elif data[0] == '1' and data[1] == 'nd':
       print(address)
       msg = ['1','aq2']
-      cliente.sendto(p.dumps(msg),('',5000))
+      cliente.sendto(p.dumps(msg),('localhost',5000))
 
     elif data[1] == 'aq2' and data[2] in funcoes:
       aux = funcoes[funcoes.index(data[2])]
-      if aux ==  
+      #if aux ==  
       print(address)
       msg = ['2',getattr(aquario2,data[2])]
       cliente.sendto(p.dumps(msg),('localhost',5000)) 
