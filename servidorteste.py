@@ -7,10 +7,10 @@ import pickle as p
 sys.path.append('./Classes')
 from descoberta import Descoberta
 
-host = ""
+host = 'localhost'
 port = 5000
 
-def config_serve(host="",port=5000):
+def config_serve(host='localhost',port=5000):
   server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
   server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
   server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -90,4 +90,3 @@ while True:
 #  else:
 #    print(p.loads(data))
 #print("cabo")
-

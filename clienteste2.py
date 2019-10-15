@@ -6,7 +6,7 @@ import pickle as p
 sys.path.append('./Classes')
 from aquario import Aquario
 
-host = ''
+host = 'localhost'
 port = 5680
 WAIT = 30
 
@@ -46,9 +46,7 @@ while True:
       print(address) 
 
       msg = ['2',funcoes]
-
       cliente.sendto(p.dumps(msg),('localhost',5000))
-
 
     elif data[0] == '1' and data[1] == 'ping':
       print(address)
@@ -94,16 +92,12 @@ while True:
           msg = ['2',aquario2.get_qtd_comida()]
         else:
           msg = ['2',aux]
-
         cliente.sendto(p.dumps(msg),('localhost',5000))
-
       
       elif data[2] == '8' and not(not data[3]):
         aquario2.set_estado_addcomida(int(data[3]))
         msg = ['2',aquario2.comida]
-
         cliente.sendto(p.dumps(msg),('localhost',5000))
-
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:
