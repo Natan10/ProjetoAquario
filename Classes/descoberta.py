@@ -10,6 +10,7 @@ class Descoberta(threading.Thread):
     self.server = server
     self.dispositivos = dispositivos
     self.buffer = buffer
+    self.data = data
   def run(self):
     while True:
       try:
