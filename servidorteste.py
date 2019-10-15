@@ -35,6 +35,7 @@ opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Rece
 print("Iniciando Servidor...")
 
 while True:
+  # TCP aplicação <-> servidor
   buffer.clear()
   print("Op = 5")
   if data:

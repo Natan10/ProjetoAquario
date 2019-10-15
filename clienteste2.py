@@ -53,13 +53,10 @@ while True:
       msg = ['1','aq2']
       cliente.sendto(p.dumps(msg),('localhost',5000))
 
-    elif data[1] == 'aq2' and data[2] in funcoes:
-      aux = funcoes[funcoes.index(data[2])]
-      #if aux ==  
+    elif data[1] == 'aq2':
+       
       print(address)
-      msg = ['2',getattr(aquario2,data[2])]
-      cliente.sendto(p.dumps(msg),('localhost',5000)) 
-
+      
 
       if data[2] == '1':
         msg = ['2',aquario2.nome]
