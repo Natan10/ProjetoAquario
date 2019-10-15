@@ -49,6 +49,10 @@ while True:
       cliente.sendto(p.dumps(msg),('localhost',address)) 
     elif data[0] == '1' and data[1] == 'nd':
       print(address)
+<<<<<<< Updated upstream
+      msg = ['1','pt1']
+      cliente.sendto(p.dumps(msg),('localhost',5000))
+=======
       if data[2] == '1':
         msg = ['2',luz.nome]
         cliente.sendto(p.dumps(msg),('localhost',5000)) 
@@ -60,6 +64,7 @@ while True:
       elif data[2] == '3':
         msg = ['2',luz.set_estado_luz()]
         cliente.sendto(p.dumps(msg),('localhost',5000))
+>>>>>>> Stashed changes
 
   except OSError as msg:
     print(msg)
