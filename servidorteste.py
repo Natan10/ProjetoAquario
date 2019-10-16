@@ -18,12 +18,10 @@ def config_serve(host="",port=5000):
   return server
 
 
-# 1.Listar Dispositivos conectados
-# 2.Listar funções de um dispositivo especifico
-##2.1 (nome dispositivo)
+#1.Listar Dispositivos conectados
+#2.Listar funções de um dispositivo especifico
 #3.Receber algum dado dos dispositivos
-##3.1 (nome dispositivo,função)
-### Mensagens (msg,tipo)
+
 
 data = []
 buffer = []
@@ -33,6 +31,15 @@ servidor_thread = Descoberta(servidor,dispositivos,buffer,data)
 servidor_thread.start()
 opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes"
 print("Iniciando Servidor...")
+
+#request
+#    ['comando = 1','tipodamsg = 1'] 
+#    ['comando = 2','tipodamsg = 2','list','nomedisp']
+#    ['comando = 3','tipodamsg = 2','nomedisp','nomefunc','valor']
+#    ['comando = 4','tipodamsg = 1']
+
+#response
+#...['tipo','conteudo']
 
 while True:
   buffer.clear()
@@ -73,20 +80,6 @@ while True:
   
 
 
-#if __name__=="__main__":
+#if __name__== "__main__":
 #  main()
-
-#servidor.sendto(msg, ('<broadcast>', 5680))
-
-
-#func_rec_ping(servidor,dispositivos)
-#print(dispositivos)
-
-#while True:
-#  data,address = servidor.recvfrom(1024)
-#  if not data:
-#    break 
-#  else:
-#    print(p.loads(data))
-#print("cabo")
 
