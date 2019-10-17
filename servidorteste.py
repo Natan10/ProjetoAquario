@@ -4,8 +4,10 @@ import threading
 import time
 import pickle as p 
 
+
 sys.path.append('./Classes')
 from descoberta import Descoberta
+import request_pb2
 
 host = ""
 port = 5000
@@ -13,15 +15,25 @@ port = 5000
 def config_serve(host="",port=5000):
   server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
   server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-  server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
   server.bind((host, port))
   return server
 
+def config_client(host="",port=5205):
+  server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  server.bind((host,port))
+  server.listen(1)
+  return server
 
-#1.Listar Dispositivos conectados
-#2.Listar funções de um dispositivo especifico
-#3.Receber algum dado dos dispositivos
-
+teste = request_pb2.Request()
+server = config_client()
+conn, addr = server.accept()
+with conn:
+  print('Connected by', addr)
+  while True:
+    data = conn.recv(1024)
+    print(teste.ParseFromString(data))
+    
+'''
 
 data = []
 buffer = []
@@ -41,6 +53,7 @@ print("Iniciando Servidor...")
 #response
 #...['tipo','conteudo']
 
+'''
 while True:
   buffer.clear()
   print("Op = 5")
