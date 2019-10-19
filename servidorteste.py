@@ -38,7 +38,6 @@ servidor = config_serve()
 servidor_thread = Descoberta(servidor,dispositivos,buffer,data)
 servidor_thread.start()
 
-opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes"
 print("Iniciando Servidor...")
 
 while True:
@@ -96,7 +95,8 @@ while True:
         print(msg)
       except KeyboardInterrupt:
         print("Finalizando servidor...")
-        break
+        
+        sys.exit()
   except OSError as e:
     print(e)
   

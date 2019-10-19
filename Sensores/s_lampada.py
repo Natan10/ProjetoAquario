@@ -3,7 +3,7 @@ import socket
 import threading
 import time
 import pickle as p 
-sys.path.append('./Classes')
+sys.path.append('../Classes')
 from luz import Luz
 
 host = ''
@@ -60,5 +60,5 @@ while True:
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:
-    print("Encerrando Aquario2...")
+    print("Encerrando Lampada...")
     break    
