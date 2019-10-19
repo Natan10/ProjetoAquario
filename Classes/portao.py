@@ -24,23 +24,6 @@ class Portao:
       return "Aberto" 
     else:
       return "Fechado"
- ### 
-#  def set_ativar(self):
-#    if self.aberto == True:
-      #função para fechar o portao
-#      self.aberto = False:
-#      return "O portão foi aberto" 
-#    else:
-#      self.aberto = True:
-#      return "O portão foi fechado"
-###
-  def lembrar(self):
-    if self.aberto == True: 
-      time_start = time.time()
-      while(self.aberto) :
-        if((time.time() - time_start) > 120):
-          return("O Portao está aberto!")
-  
   def set_estado_portao(self):
     if self.aberto == 1:
       self.aberto = 0
