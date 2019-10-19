@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package mensagem;
+
+message Request {
+  string  comando = 1;
+  string tipo = 2;
+  string nome_disp = 3;
+  string nome_func = 4;
+  int32 valor =5 ;
+}
+
+
+message Response {
+  string  tipo = 1;
+  string conteudo = 2;
+
+}
