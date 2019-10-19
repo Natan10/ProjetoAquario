@@ -24,25 +24,83 @@ def config_client(host="",port=5205):
   server.listen(1)
   return server
 
-teste = request_pb2.Request()
-server = config_client()
-conn, addr = server.accept()
-with conn:
-  print('Connected by', addr)
-  while True:
-    data = conn.recv(1024)
-    print(teste.ParseFromString(data))
-    
-'''
+
+
+
+request = request_pb2.Request()
+response = request_pb2.Response()
 
 data = []
 buffer = []
 dispositivos = []
+app = config_client()
 servidor = config_serve()
 servidor_thread = Descoberta(servidor,dispositivos,buffer,data)
 servidor_thread.start()
+
 opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes"
 print("Iniciando Servidor...")
+
+while True:
+  try:
+    print("Esperando conexões...")
+    conn,addr = app.accept()
+    print("Conectado com",addr)
+    
+    while True:
+      print("Esperando dados...")
+      dados = conn.recv(1024)
+      request.ParseFromString(dados[:-1])
+      if request.comando == 'close':
+        break
+      print(request)
+      buffer.clear()
+
+    # if data:
+    #   print(f"Dados Aquario: {data}")
+    #   data.clear()
+      print("====================================")
+      try:
+        if request.comando == '1':
+          print(f"Dispositivos:{dispositivos}")
+          if not dispositivos:
+            conteudo = 'nenhum dispositivo na rede'
+            response.conteudo = conteudo
+          response.conteudo = f'{dispositivos}'
+          response.tipo_da_msg = '1'
+          conn.send(response.SerializeToString())
+
+        elif request.comando == '2':
+          msg = [request.tipo_da_msg,request.nome_do_disp,'list']
+          servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+          time.sleep(0.5)
+          print(buffer)
+          response.tipo_da_msg = '2'
+          response.conteudo = f'{buffer[0]}'
+          conn.send(response.SerializeToString())
+          
+        elif request.comando == '3':
+          msg = [request.tipo_da_msg,request.nome_do_disp,request.nome_da_func,request.valor]
+          servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+          time.sleep(0.5)
+          print(buffer)
+          response.tipo_da_msg = '2'
+          response.conteudo = f'{buffer[0]}'
+          conn.send(response.SerializeToString())
+        
+        elif request.comando == '4':
+          msg = [request.tipo_da_msg,"ping"]
+          servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+        
+      except OSError as msg:
+        print(msg)
+      except KeyboardInterrupt:
+        print("Finalizando servidor...")
+        break
+  except OSError as e:
+    print(e)
+  
+
 
 #request
 #    ['comando = 1','tipodamsg = 1'] 
@@ -52,47 +110,3 @@ print("Iniciando Servidor...")
 
 #response
 #...['tipo','conteudo']
-
-'''
-while True:
-  buffer.clear()
-  print("Op = 5")
-  if data:
-    print(f"Dados Aquario: {data}")
-    data.clear()
-  print("====================================")
-  comando = input("Digite a opção:")
-  try:
-    if comando == '1':
-      print(f"Dispositivos:{dispositivos}")
-
-    elif comando == '2':
-      msg = ['2',input("Digite o nome do disp:"),'list']
-      servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
-      time.sleep(0.5)
-      print(buffer)
-      
-    elif comando == '3':
-      msg = ['2',input("Digite o nome do disp:"),input("Digite o numero da func:"),input("digite o valor:")]
-      servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
-      time.sleep(0.5)
-      print(buffer)
-    
-    elif comando == '4':
-      msg = ['1',"ping"]
-      servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
-      
-    elif comando == '5':
-      print(opcoes)
-    
-  except OSError as msg:
-    print(msg)
-  except KeyboardInterrupt:
-    print("Finalizando servidor...")
-    break
-  
-
-
-#if __name__== "__main__":
-#  main()
-
