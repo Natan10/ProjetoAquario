@@ -11,12 +11,11 @@ import time
 
 class Portao:
 
-  self.tempo_aberto = 0
+  
 
   def __init__(self,nome, aberto = 1):
     self.nome = nome
     self.aberto = aberto
-  
   def get_nome(self):
     return self.nome 
 
