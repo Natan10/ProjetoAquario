@@ -1,24 +1,18 @@
 import sys
 import socket
-import threading
 import time
 import pickle as p 
+
+sys.path.append('../Funcoes')
 sys.path.append('../Classes')
 from luz import Luz
+from funcoes import *
 
 host = ''
 port = 5680
 
 
-def config_socket(host,port):
-  meia = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-  meia.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-  meia.bind((host,port))
-  return meia
-
-
-
-cliente = config_socket(host,port)
+cliente = config_sensor(host,port)
 luz = Luz('Lampada')
 
 #Se idetificando para o servidor

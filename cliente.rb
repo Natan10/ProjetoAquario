@@ -8,22 +8,14 @@ cliente.connect Socket.pack_sockaddr_in(5205, '')
 
 x = Distribuidos::Response.new
 
-puts '*************************'
-opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:opçoes\n6:close"
+opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:close"
+
+puts "==="*10
 puts opcoes
-puts '*************************'
-
-def recebe(cliente)
-  resp = cliente.recvfrom(1024)
-  resp = resp[0].to_s
-  if resp.match(/data/)  
-    $teste.push(resp.match(/\[.*\]/))
-  end
-end
-
+puts "==="*10
 
 loop do
-  puts "==="*10 
+  puts "==="*10
   puts 'Digite um comando:'
   comando = gets.chomp
 
@@ -37,7 +29,7 @@ loop do
     nome_do_disp = gets.chomp
     msg = Distribuidos::Request.new(comando: '2', tipo_da_msg: '2', nome_do_disp: nome_do_disp)
     cliente.puts Distribuidos::Request.encode(msg)
-    
+
   elsif comando == '3'
     puts "Digite o nome do dispositivo:" 
     nome_do_disp = gets.chomp
@@ -53,9 +45,6 @@ loop do
     cliente.puts Distribuidos::Request.encode(msg)
 
   elsif comando == '5'
-    puts opcoes
-
-  elsif comando == '6'
     msg = Distribuidos::Request.new(comando: 'close')
     cliente.puts Distribuidos::Request.encode(msg)
     cliente.close
