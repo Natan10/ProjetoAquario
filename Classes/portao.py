@@ -7,23 +7,17 @@
 import random
 import time 
 
-
-
 class Portao:
-
-  
-
   def __init__(self,nome, aberto = 1):
     self.nome = nome
     self.aberto = aberto
+
   def get_nome(self):
     return self.nome 
 
   def get_estado_portao(self):
-    if self.aberto == 1:
-      return "Aberto" 
-    else:
-      return "Fechado"
+    return aberto
+
   def set_estado_portao(self):
     if self.aberto == 1:
       self.aberto = 0
