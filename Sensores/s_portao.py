@@ -24,6 +24,7 @@ portao = Portao('Portao')
 #Se idetificando para o servidor
 cliente.sendto(p.dumps(['1','portao']),('',5000))
 funcoes = ['1:get_nome','2:get_estado_portao','3:set_estado_portao']
+validacao = ['1','2','3']
 
 
 print("Iniciando Portão...")
@@ -45,17 +46,22 @@ while True:
 
     elif data[1] == 'portao':
       print(address)
-      if data[2] == '1':
-        msg = ['2',portao.nome]
-        cliente.sendto(p.dumps(msg),('',5000)) 
-      
-      elif data[2] == '2':
-        msg = ['2',portao.get_estado_portao()]
+
+      if data[2] not in validacao:
+        msg = ['2','funçao inexistente']
         cliente.sendto(p.dumps(msg),('',5000))
-      
-      elif data[2] == '3':
-        msg = ['2',portao.set_estado_portao()]
-        cliente.sendto(p.dumps(msg),('',5000))
+      else:
+        if data[2] == '1':
+          msg = ['2',portao.nome]
+          cliente.sendto(p.dumps(msg),('',5000)) 
+        
+        elif data[2] == '2':
+          msg = ['2',portao.get_estado_portao()]
+          cliente.sendto(p.dumps(msg),('',5000))
+        
+        elif data[2] == '3':
+          msg = ['2',portao.set_estado_portao()]
+          cliente.sendto(p.dumps(msg),('',5000))
 
   except OSError as msg:
     print(msg)

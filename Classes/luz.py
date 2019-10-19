@@ -1,8 +1,7 @@
 #Classe Portao
 # Nome_Luz :
-# Ligada: Ligada / Desligada
+# Ligada: Ligada = 1 / Desligada = 0
 # Ativar: Liga / Desliga a Luz
-# Potencia: Ajusta a potência da luz, se possível... Como fazer um método opcional? acho melhor não fazer kkk
 
 import random
 import time 
@@ -17,9 +16,9 @@ class Luz:
 
   def get_estado_luz(self):
     if self.ligada == 1:
-      return "Ligada" 
+      return "Luz ligada" 
     else:
-      return "Desliga"
+      return "Luz desligada"
   
   def set_estado_luz(self):
     if self.ligada == 1:

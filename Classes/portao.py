@@ -21,9 +21,9 @@ class Portao:
 
   def get_estado_portao(self):
     if self.aberto == 1:
-      return "Aberto" 
+      return "Portao aberto" 
     else:
-      return "Fechado"
+      return "Portao fechado"
   
   def set_estado_portao(self):
     if self.aberto == 1:
