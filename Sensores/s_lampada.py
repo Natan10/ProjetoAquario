@@ -56,6 +56,10 @@ while True:
           msg = ['2',luz.set_estado_luz()]
           cliente.sendto(p.dumps(msg),('',5000))
 
+        elif data[2] == '4':
+          msg = ['2',luz.get_tempo_ligada()]
+          cliente.sendto(p.dumps(msg),('',5000))
+
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:
