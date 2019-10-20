@@ -61,13 +61,12 @@ servidor.sendto(p.dumps(msg), ('<broadcast>',5680))
 
 #### Comunicação
 ---
-Para a questão da comunicação tentamos padronizar ao máximo as mensagens, para que a aplicação ficasse o mais genêrica possível. Pensando nisso definimos 4 tipos de mensagens para o request e apenas um tipo para o response.
+Para a questão da comunicação tentamos padronizar ao máximo as mensagens, para que a aplicação ficasse o mais genêrica possível. Pensando nisso definimos 3 tipos de mensagens para o request e apenas um tipo para o response.
 
 ### Request
-1. (comando,tipo_da_msg)
-2. (comando,tipo_da_msg = 'data' ou 'ping' ou '1') 
-3. (comando,tipo_da_msg,lista_funçoes_dispositivo,nome_do_dispositivo)
-4. (comando,tipo_da_msg,nome_do_dispositivo,nome_da_função,valor)
+1. (comando,tipo_da_msg = 'data' ou 'ping' ou '1') 
+2. (comando,tipo_da_msg,lista_funçoes_dispositivo,nome_do_dispositivo)
+3. (comando,tipo_da_msg,nome_do_dispositivo,nome_da_função,valor)
 
 Para as mensagens de *Request* definimos dois tipos de tipo de mensagens que são as mensagens do tipo '1', que se baseiam em mensagens de ping que seriam as mensagens enviadas para descobrir novos dispositivos e mensagens do tipo dado que seria a mensagens que o sensor que irá ficar enviado dados de X em X tempos enviará.</br>
 O outro tipo seriam as mensagens do tipo '2' que seriam mensagens de requisição de dados dos sensores. Como citado acima essas mensagens tem uns parâmetros a mais, como o nome do dipositivo, pois como o servidor utiliza broadcast o dispositivo cujo o nome está na mensagem irá responder a solicitação.
@@ -80,7 +79,7 @@ Para as mensagens de *Response* definimos apenas um tipo. Quando os sensores rec
 
 ### Sensores/Processos
 ---
-Para os sensores/processos a implementação foi simples, de tal forma que elas são bem parecidas com mensagens de get e set. O mais diferenciado entre eles e o *Aquário* que possui uma função de que X em X segundos manda dados para o cliente utilizando um Timer da lib threading.
+Para os sensores/processos a implementação foi simples, de tal forma que elas são bem parecidas com mensagens de get e set. O mais diferenciado entre eles é o *Aquário* que possui uma função de que X em X segundos manda dados para o cliente utilizando um Timer da lib threading.
 
 ~~~python
 # enviando status
