@@ -11,8 +11,7 @@ import time
 
 class Portao:
 
-  self.tempo_aberto = 0
-
+  
   def __init__(self,nome, aberto = 1):
     self.nome = nome
     self.aberto = aberto
@@ -22,9 +21,9 @@ class Portao:
 
   def get_estado_portao(self):
     if self.aberto == 1:
-      return "Aberto" 
+      return "Portao aberto" 
     else:
-      return "Fechado"
+      return "Portao fechado"
   
   def set_estado_portao(self):
     if self.aberto == 1:

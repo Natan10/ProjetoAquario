@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package distribuidos;
+
+//request
+//    ['comando = 1','tipodamsg = 1'] 
+//    ['comando = 2','tipodamsg = 2','list','nomedisp']
+//    ['comando = 3','tipodamsg = 2','nomedisp','nomefunc','valor']
+//    ['comando = 4','tipodamsg = 1']
+
+//response
+//...['tipo','conteudo']
+
+message Request {
+  string comando = 1; 
+  string tipo_da_msg = 2;
+  string nome_do_disp = 3;
+  string nome_da_func = 4;
+  int32 valor = 5;
+}
+
+message Response {
+  string tipo_da_msg = 1;
+  string conteudo = 2;
+}
+

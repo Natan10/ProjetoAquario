@@ -1,6 +1,6 @@
 #Classe Aquario
 # Nome_Aquario :
-# Luz : Ligada / Desligada
+# Luz : Ligada = 1 / Desligada = 0
 # Comida : Quantidade e aviso de falta de comida
 # Filtro : Quantidade de O²
 
