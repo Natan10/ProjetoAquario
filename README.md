@@ -3,7 +3,7 @@
 * Alunos:
   * Alexei Souza Alves - 398611 
   * Gustavo Bezzera Fechine - 397269
-  * Natanael Moreira Lemos - 398447
+  * Natanael Moreira de Lemos - 398447
   * Ramiro Campos de Castro - 400723
 
 ## Esse arquivo tem como objetivo explicar como a aplicação funciona.
