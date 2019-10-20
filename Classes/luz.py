@@ -19,7 +19,7 @@ class Luz:
     if self.ligada == 1:
       return "Ligada" 
     else:
-      return "Desliga"
+      return "Desligada"
   
   def set_estado_luz(self):
     if self.ligada == 1:
