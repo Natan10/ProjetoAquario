@@ -8,9 +8,9 @@ from luz import Luz
 
 host = 'localhost'
 port = 5680
-lig = 0
-temp_lig = 0
-temp_total = 0
+#lig = 0
+#tempo_lig = 0
+#tempo_total = 0
 
 def config_socket(host,port):
   meia = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -25,7 +25,7 @@ luz = Luz('Lampada')
 
 #Se idetificando para o servidor
 cliente.sendto(p.dumps(['1','lamp1']),('localhost',5000))
-funcoes = ['1:get_nome','2:get_estado_luz','3:set_estado_luz','4:tempo_ligada','5:tempo_total']
+funcoes = ['1:get_nome','2:get_estado_luz','3:set_estado_luz','4:get_tempo_ligada','5:get_tempo_total']
 
 
 print("Iniciando Lampada...")
@@ -59,11 +59,13 @@ while True:
         msg = ['2',luz.set_estado_luz()]
         
         cliente.sendto(p.dumps(msg),('localhost',5000))
+      
       elif data[2] == '4':
-        msg = ['2',temp_lig]
+        msg = ['2', luz.get_tempo_ligada()]
         cliente.sendto(p.dumps(msg),('localhost',5000))
+      
       elif data[2] == '5':
-        msg = ['2',temp_total]
+        msg = ['2',luz.att_tempo_total()]
         cliente.sendto(p.dumps(msg),('localhost',5000))                
 
   except OSError as msg:
