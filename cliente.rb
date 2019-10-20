@@ -35,7 +35,7 @@ loop do
     nome_do_disp = gets.chomp
     puts "Digite o numero da funçao:"
     nome_da_func =  gets.chomp
-    puts "Digite um valor se a funçao for get:"
+    puts "Digite um valor se a funçao for set:"
     valor =  gets.to_i
     msg = Distribuidos::Request.new(comando: '3', tipo_da_msg: '2',nome_do_disp:nome_do_disp,nome_da_func:nome_da_func, valor:valor)
     cliente.puts Distribuidos::Request.encode(msg)
