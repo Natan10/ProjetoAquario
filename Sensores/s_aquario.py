@@ -32,7 +32,7 @@ funcoes = ['1:get_nome','2:get_estado_luz','3:get_qtd_comida','4:get_estado_filt
 validacao = ['1','2','3','4','5','6','7','8']
 
 print("Iniciando Aquario...")
-status()
+#status()
 
 while True:
   try: 
