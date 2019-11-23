@@ -38,58 +38,81 @@ class Consume(object):
 				body=str(n))
 		while self.response is None:
 			print("Esperando dados...")
-			self.connection.process_data_events(time_limit=1)
+			self.connection.process_data_events(time_limit=2)
 		return self.response
 
-
-request = request_pb2.Request()
-response = request_pb2.Response()
-
+dispositivos = ['lamp','aq','port']
+escolha = []
 print("Iniciando aplicação...\n")
-#print("Quais dispositivos deseja receber dados?")
-#print("1: lampada\n2: aquario\n3: portão")
-#dispositivos = str(input("Digite as opções?").strip().split(' '))
-opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:close"
+print("Quais dispositivos deseja receber dados?")
+print("Lampada:lamp\nAquario:aq\nPortao:port\n")
+
+def assinar_disp(dispositivos,escolha):
+	escolha.clear()
+	while True:
+		d = input("assinar dispositivo:").lower()
+		if d in ['s','sair']:
+			break
+		elif d not in dispositivos:
+			print("dispositivo inexistente!")
+		else:
+			if d not in escolha:
+				escolha.append(d)
+	
+assinar_disp(dispositivos,escolha)
+
+opcoes = "Opções:\n1:Listar Dispositivos conectados\n2:Listar funçoes\n3:Receber dados\n4:descobrir dispositivos\n5:assinaturas\n6:muda ass\n7:menu\n8:close"
 print(opcoes)
 consume = Consume()
 
 while True:
 	try:
-		comando  = input("Digite a opção:")
+		comando  = input("Digite a opção [7:menu] :")
 		if comando == '1':
-			msg = ['1','1']
-			response = consume.call(msg)
+			dados = consume.call("1 1 teste")
 			time.sleep(0.2)
-			print(f"Resposta:{type(response.decode())}")
-			print(f"Resposta:{response[0]}")
+			print(f"Resposta:{p.loads(dados)}")
+			print("\n")
+
 			
 		elif comando == '2':
 			nome_do_disp = input("Digite o nome do dispositivo:")
-			msg = ['2','2',nome_do_disp]
-			response = consume.call(p.dumps(msg))
+			dados = consume.call(f"2 2 {nome_do_disp}")
 			time.sleep(0.2)
-			print(f"Resposta:{response}")
+			print(f"Resposta:{p.loads(dados)}")
+			print("\n")
+
 		
 		elif comando == '3':
 			nome_do_disp = input("Digite o nome do dispositivo:")
 			numero_funcao = input("Digite o numero da funçao:")
 			valor = int(input("Digite o valor:"))
-			msg = ['3','2',nome_do_disp,numero_funcao,valor]
-			response = consume.call(p.dumps(msg))
+			dados = consume.call(f"3 2 {nome_do_disp} {numero_funcao} {valor}")
 			time.sleep(0.2)
-			print(f"Resposta:{response}")
+			print(f"Resposta:{p.loads(dados)}")
+			print("\n")
+
 		
 		elif comando == '4':
 			msg = ['4','1']
-			response = consume.call(p.dumps(msg))
+			dados = consume.call('4 1')
 			time.sleep(0.2)
-			print(f"Resposta:{response}")
+			print(f"Resposta:{p.loads(dados)}")
 
 		elif comando == '5':
-			msg = ['close']
-			response = consume.call(p.dumps(msg))
-			time.sleep(0.2)
-			print(f"Resposta:{response}")
+			print(f'Assinatura: {escolha}')
+			print("\n")
+
+			
+		elif comando == '6':
+			assinar_disp(dispositivos,escolha)
+			print("\n")
+
+		elif comando == '7':
+			print(opcoes)
+
+		elif comando == '8':
+			consume.connection.close()
 			break
 		else:
 			print("Opção não encontrada!")

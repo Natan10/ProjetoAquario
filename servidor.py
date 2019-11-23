@@ -10,14 +10,11 @@ sys.path.append('./Classes')
 sys.path.append('./Funcoes')
 from descoberta import Descoberta
 from funcoes import *
-import request_pb2
 
 host = ""
 port = 5000
 
 
-request = request_pb2.Request()
-response = request_pb2.Response()
 
 data = []
 buffer = []
@@ -29,8 +26,8 @@ servidor_thread.start()
 print("Iniciando Servidor...")
 
 
-def processa_requisicao(msg):
-  msg = p.loads(msg)    
+def processa_requisicao(dados):
+  msg = dados.decode().split()
   try:
     buffer.clear()
     if msg[0] == 'close':
@@ -39,36 +36,38 @@ def processa_requisicao(msg):
     elif msg[0] == '1':
       print(f"Dispositivos:{dispositivos}")
       if not dispositivos:
-        response  = ['1',"nenhum dispositivo na rede"]
+        response  = ['nenhum dispositivo na rede']
       else:
-        response = ['1',f"{dispositivos}"]
+        response = [f'{dispositivos}']
       return p.dumps(response)
       
     elif msg[0] == '2':
+      print(msg)
       msg_aux = [msg[1],msg[2],'list']
-      if m[2] not in dispositivos:
-        response = ['2',"dispositivo inexistente"]
+      if msg[2] not in dispositivos:
+        response = ['dispositivo inexistente']
         buffer.clear()
         return p.dumps(response)
       else:  
-        servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+        servidor.sendto(p.dumps(msg_aux), ('<broadcast>', 5680))
         time.sleep(0.5)
         print(buffer)
-        response = ['2',f'{buffer[0]}']
+        response = [f'{buffer[0]}']
         buffer.clear()
         return p.dumps(response)
 
     elif msg[0] == '3':
+      print(msg)
       msg_aux = ['2',msg[2],msg[3],msg[4]]
       if msg[2] not in dispositivos:
-        response = ['2',f"['dispositivo inexistente']"]
+        response = ['dispositivo inexistente']
         buffer.clear()
         return p.dumps(response)
       else:
-        servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
+        servidor.sendto(p.dumps(msg_aux), ('<broadcast>', 5680))
         time.sleep(0.5)
         print(buffer)
-        response = ['2',f"{buffer[0]}"]
+        response = [f'{buffer[0]}']
         buffer.clear()
         return p.dumps(response)
     
@@ -76,7 +75,7 @@ def processa_requisicao(msg):
       msg = ["1","ping"]
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
       time.sleep(0.2)
-      response = ['1',f"{dispositivos}"]
+      response = [f'{dispositivos}']
       return p.dumps(response)
 
   except OSError as msg:
@@ -102,14 +101,12 @@ def main():
 
   def on_request(ch, method, props, body):
     msg = body
-    print(f'Msg_Type:{type(msg.decode())}')
-    print(f'Msg:{msg.decode()}')
-    #response = processa_requisicao(msg.decode())
+    response = processa_requisicao(msg)
     ch.basic_publish(exchange='',
                     routing_key=props.reply_to,
                     properties=pika.BasicProperties(correlation_id = \
                                                         props.correlation_id),
-                    body=msg)
+                    body=response)
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
   channel.basic_qos(prefetch_count=1)

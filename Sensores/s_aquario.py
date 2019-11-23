@@ -57,41 +57,41 @@ while True:
         cliente.sendto(p.dumps(msg),('',5000))
       else:
         if data[2] == '1':
-          msg = ['2',aquario2.nome]
+          msg = ['2',aquario.nome]
           cliente.sendto(p.dumps(msg),('',5000)) 
         
         elif data[2] == '2':
-          msg = ['2',aquario2.get_estado_luz()]
+          msg = ['2',aquario.get_estado_luz()]
           cliente.sendto(p.dumps(msg),('',5000))
         
         elif data[2] == '3':
-          msg = ['2',aquario2.get_qtd_comida()]
+          msg = ['2',aquario.get_qtd_comida()]
           cliente.sendto(p.dumps(msg),('',5000))
 
         elif data[2] == '4':
-          msg = ['2',aquario2.get_estado_filtro()]
+          msg = ['2',aquario.get_estado_filtro()]
           cliente.sendto(p.dumps(msg),('',5000))
         
         elif data[2] == '5':
-          msg = ['2',aquario2.get_estado_aquario()]
+          msg = ['2',aquario.get_estado_aquario()]
           cliente.sendto(p.dumps(msg),('',5000))
 
         elif data[2] == '6' and not(not data[3]):
-          aquario2.set_estado_luz(int(data[3]))
-          msg = ['2',aquario2.luz]
+          aquario.set_estado_luz(int(data[3]))
+          msg = ['2',aquario.luz]
           cliente.sendto(p.dumps(msg),('',5000))
 
         elif data[2] == '7' and not(not data[3]):
-          aux = aquario2.set_estado_comer(int(data[3]))
+          aux = aquario.set_estado_comer(int(data[3]))
           if not aux:
-            msg = ['2',aquario2.get_qtd_comida()]
+            msg = ['2',aquario.get_qtd_comida()]
           else:
             msg = ['2',aux]
           cliente.sendto(p.dumps(msg),('',5000))
         
         elif data[2] == '8' and not(not data[3]):
-          aquario2.set_estado_addcomida(int(data[3]))
-          msg = ['2',aquario2.comida]
+          aquario.set_estado_addcomida(int(data[3]))
+          msg = ['2',aquario.comida]
           cliente.sendto(p.dumps(msg),('',5000))
           
   except OSError as msg:
