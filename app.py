@@ -4,23 +4,24 @@ import pickle as p
 import time
 import sys
 
+sys.path.append('./Classes')
+import request_pb2
+
 class Consume(object):
 	def __init__(self):
 		self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 
 		self.channel = self.connection.channel()
     
-		#result = self.channel.queue_declare(queue='')
-		#self.callback_queue = result.method.queue
-		self.channel.queue_declare(queue='hello', exclusive=True)
-
+		result = self.channel.queue_declare(queue='', exclusive=True)
+		self.callback_queue = result.method.queue
+		
 		self.channel.basic_consume(
-				queue='hello',
+				queue=self.callback_queue,
 				on_message_callback=self.on_response,
 				auto_ack=True)
 
 	def on_response(self, ch, method, props, body):
-		print('on response')
 		if self.corr_id == props.correlation_id:
 			self.response = body
 
@@ -31,7 +32,7 @@ class Consume(object):
 				exchange='',
 				routing_key='rpc_queue',
 				properties=pika.BasicProperties(
-						reply_to='hello',
+						reply_to=self.callback_queue,
 						correlation_id=self.corr_id,
 				),
 				body=str(n))
@@ -40,6 +41,9 @@ class Consume(object):
 			self.connection.process_data_events(time_limit=1)
 		return self.response
 
+
+request = request_pb2.Request()
+response = request_pb2.Response()
 
 print("Iniciando aplicação...\n")
 #print("Quais dispositivos deseja receber dados?")
@@ -54,14 +58,15 @@ while True:
 		comando  = input("Digite a opção:")
 		if comando == '1':
 			msg = ['1','1']
-			response = consume.call('teste')
+			response = consume.call(msg)
 			time.sleep(0.2)
-			print(f"Resposta:{response}")
+			print(f"Resposta:{type(response.decode())}")
+			print(f"Resposta:{response[0]}")
 			
 		elif comando == '2':
 			nome_do_disp = input("Digite o nome do dispositivo:")
 			msg = ['2','2',nome_do_disp]
-			response = consume.call(msg)
+			response = consume.call(p.dumps(msg))
 			time.sleep(0.2)
 			print(f"Resposta:{response}")
 		
@@ -70,19 +75,19 @@ while True:
 			numero_funcao = input("Digite o numero da funçao:")
 			valor = int(input("Digite o valor:"))
 			msg = ['3','2',nome_do_disp,numero_funcao,valor]
-			response = consume.call(msg)
+			response = consume.call(p.dumps(msg))
 			time.sleep(0.2)
 			print(f"Resposta:{response}")
 		
 		elif comando == '4':
 			msg = ['4','1']
-			response = consume.call(msg)
+			response = consume.call(p.dumps(msg))
 			time.sleep(0.2)
 			print(f"Resposta:{response}")
 
 		elif comando == '5':
 			msg = ['close']
-			response = consume.call(msg)
+			response = consume.call(p.dumps(msg))
 			time.sleep(0.2)
 			print(f"Resposta:{response}")
 			break

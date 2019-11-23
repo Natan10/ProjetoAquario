@@ -10,12 +10,14 @@ sys.path.append('./Classes')
 sys.path.append('./Funcoes')
 from descoberta import Descoberta
 from funcoes import *
-from server_rabbit import Server
+import request_pb2
 
 host = ""
 port = 5000
 
 
+request = request_pb2.Request()
+response = request_pb2.Response()
 
 data = []
 buffer = []
@@ -23,13 +25,12 @@ dispositivos = []
 servidor = config_serve()
 servidor_thread = Descoberta(servidor,dispositivos,buffer,data)
 servidor_thread.start()
-servidor_rabbit = Server()
 
 print("Iniciando Servidor...")
 
 
 def processa_requisicao(msg):
-  print(msg)    
+  msg = p.loads(msg)    
   try:
     buffer.clear()
     if msg[0] == 'close':
@@ -41,42 +42,42 @@ def processa_requisicao(msg):
         response  = ['1',"nenhum dispositivo na rede"]
       else:
         response = ['1',f"{dispositivos}"]
-      return response
+      return p.dumps(response)
       
     elif msg[0] == '2':
       msg_aux = [msg[1],msg[2],'list']
       if m[2] not in dispositivos:
         response = ['2',"dispositivo inexistente"]
         buffer.clear()
-        return response
+        return p.dumps(response)
       else:  
         servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
         time.sleep(0.5)
         print(buffer)
         response = ['2',f'{buffer[0]}']
         buffer.clear()
-        return response
+        return p.dumps(response)
 
     elif msg[0] == '3':
       msg_aux = ['2',msg[2],msg[3],msg[4]]
       if msg[2] not in dispositivos:
         response = ['2',f"['dispositivo inexistente']"]
         buffer.clear()
-        return response
+        return p.dumps(response)
       else:
         servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
         time.sleep(0.5)
         print(buffer)
         response = ['2',f"{buffer[0]}"]
         buffer.clear()
-        return response
+        return p.dumps(response)
     
     elif msg[0] == '4':
       msg = ["1","ping"]
       servidor.sendto(p.dumps(msg), ('<broadcast>', 5680))
       time.sleep(0.2)
       response = ['1',f"{dispositivos}"]
-      return response
+      return p.dumps(response)
 
   except OSError as msg:
     print(msg)
@@ -90,7 +91,6 @@ def processa_requisicao(msg):
 
 def main():
   print("Esperando requisições...")
-  #servidor_rabbit.channel.start_consuming()
     
   connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
@@ -102,8 +102,9 @@ def main():
 
   def on_request(ch, method, props, body):
     msg = body
-    print('aki')
-    #response = processa_requisicao(msg)
+    print(f'Msg_Type:{type(msg.decode())}')
+    print(f'Msg:{msg.decode()}')
+    #response = processa_requisicao(msg.decode())
     ch.basic_publish(exchange='',
                     routing_key=props.reply_to,
                     properties=pika.BasicProperties(correlation_id = \
