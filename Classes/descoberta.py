@@ -24,6 +24,7 @@ class Descoberta(threading.Thread):
             break
         elif data[0] == '2':
           self.buffer.append(data[1])
+          self.buffer.append(data[2])
         elif data[0] == 'data':
           self.data.append(data[1])
 

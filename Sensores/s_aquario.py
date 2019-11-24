@@ -41,7 +41,7 @@ while True:
 
     if data[1] == 'aq' and data[2] == 'list':
       print(address) 
-      msg = ['2',funcoes]
+      msg = ['2',funcoes,'aq']
       cliente.sendto(p.dumps(msg),('',5000))
 
     elif data[0] == '1' and data[1] == 'ping':
@@ -53,49 +53,49 @@ while True:
       print(address)
 
       if data[2] not in validacao:
-        msg = ['2','funçao inexistente']
+        msg = ['2','funçao inexistente','aq']
         cliente.sendto(p.dumps(msg),('',5000))
       else:
         if data[2] == '1':
-          msg = ['2',aquario.nome]
+          msg = ['2',aquario.nome,'aq']
           cliente.sendto(p.dumps(msg),('',5000)) 
         
         elif data[2] == '2':
-          msg = ['2',aquario.get_estado_luz()]
+          msg = ['2',aquario.get_estado_luz(),'aq']
           cliente.sendto(p.dumps(msg),('',5000))
         
         elif data[2] == '3':
-          msg = ['2',aquario.get_qtd_comida()]
+          msg = ['2',aquario.get_qtd_comida(),'aq']
           cliente.sendto(p.dumps(msg),('',5000))
 
         elif data[2] == '4':
-          msg = ['2',aquario.get_estado_filtro()]
+          msg = ['2',aquario.get_estado_filtro(),'aq']
           cliente.sendto(p.dumps(msg),('',5000))
         
         elif data[2] == '5':
-          msg = ['2',aquario.get_estado_aquario()]
+          msg = ['2',aquario.get_estado_aquario(),'aq']
           cliente.sendto(p.dumps(msg),('',5000))
 
         elif data[2] == '6' and not(not data[3]):
           aquario.set_estado_luz(int(data[3]))
-          msg = ['2',aquario.luz]
+          msg = ['2',aquario.luz,'aq']
           cliente.sendto(p.dumps(msg),('',5000))
 
         elif data[2] == '7' and not(not data[3]):
           aux = aquario.set_estado_comer(int(data[3]))
           if not aux:
-            msg = ['2',aquario.get_qtd_comida()]
+            msg = ['2',aquario.get_qtd_comida(),'aq']
           else:
-            msg = ['2',aux]
+            msg = ['2',aux,'aq']
           cliente.sendto(p.dumps(msg),('',5000))
         
         elif data[2] == '8' and not(not data[3]):
           aquario.set_estado_addcomida(int(data[3]))
-          msg = ['2',aquario.comida]
+          msg = ['2',aquario.comida,'aq']
           cliente.sendto(p.dumps(msg),('',5000))
           
   except OSError as msg:
     print(msg)
   except KeyboardInterrupt:
-    print("Encerrando Aquario2...")
+    print("Encerrando Aquario...")
     break    

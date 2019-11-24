@@ -42,7 +42,6 @@ def processa_requisicao(dados):
       return p.dumps(response)
       
     elif msg[0] == '2':
-      print(msg)
       msg_aux = [msg[1],msg[2],'list']
       if msg[2] not in dispositivos:
         response = ['dispositivo inexistente']
@@ -51,13 +50,11 @@ def processa_requisicao(dados):
       else:  
         servidor.sendto(p.dumps(msg_aux), ('<broadcast>', 5680))
         time.sleep(0.5)
-        print(buffer)
-        response = [f'{buffer[0]}']
+        response = [buffer[0],buffer[1]]
         buffer.clear()
         return p.dumps(response)
 
     elif msg[0] == '3':
-      print(msg)
       msg_aux = ['2',msg[2],msg[3],msg[4]]
       if msg[2] not in dispositivos:
         response = ['dispositivo inexistente']
@@ -66,8 +63,7 @@ def processa_requisicao(dados):
       else:
         servidor.sendto(p.dumps(msg_aux), ('<broadcast>', 5680))
         time.sleep(0.5)
-        print(buffer)
-        response = [f'{buffer[0]}']
+        response = [buffer[0],buffer[1]]
         buffer.clear()
         return p.dumps(response)
     
@@ -101,6 +97,7 @@ def main():
 
   def on_request(ch, method, props, body):
     msg = body
+    print(f'Queue:{props.reply_to}')
     response = processa_requisicao(msg)
     ch.basic_publish(exchange='',
                     routing_key=props.reply_to,

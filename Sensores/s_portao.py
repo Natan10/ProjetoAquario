@@ -18,7 +18,7 @@ cliente = config_sensor(host,port)
 portao = Portao('Portao')
 
 #Se idetificando para o servidor
-cliente.sendto(p.dumps(['1','portao']),('',5000))
+cliente.sendto(p.dumps(['1','port']),('',5000))
 funcoes = ['1:get_nome','2:get_estado_portao','3:set_estado_portao']
 validacao = ['1','2','3']
 
@@ -30,33 +30,33 @@ while True:
     data,address = cliente.recvfrom(1024)
     data = p.loads(data)
 
-    if data[1] == 'portao' and data[2] == 'list':
+    if data[1] == 'port' and data[2] == 'list':
       print(address) 
-      msg = ['2',funcoes]
+      msg = ['2',funcoes,'port']
       cliente.sendto(p.dumps(msg),('',5000))
 
     elif data[0] == '1' and data[1] == 'ping':
       print(address)
-      msg = ['1','portao']
+      msg = ['1','port']
       cliente.sendto(p.dumps(msg),('',5000))
 
-    elif data[1] == 'portao':
+    elif data[1] == 'port':
       print(address)
 
       if data[2] not in validacao:
-        msg = ['2','funçao inexistente']
+        msg = ['2','funçao inexistente','port']
         cliente.sendto(p.dumps(msg),('',5000))
       else:
         if data[2] == '1':
-          msg = ['2',portao.nome]
+          msg = ['2','port','port']
           cliente.sendto(p.dumps(msg),('',5000)) 
         
         elif data[2] == '2':
-          msg = ['2',portao.get_estado_portao()]
+          msg = ['2',portao.get_estado_portao(),'port']
           cliente.sendto(p.dumps(msg),('',5000))
         
         elif data[2] == '3':
-          msg = ['2',portao.set_estado_portao()]
+          msg = ['2',portao.set_estado_portao(),'port']
           cliente.sendto(p.dumps(msg),('',5000))
 
   except OSError as msg:
