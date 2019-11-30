@@ -11,8 +11,8 @@
 ![Aplicação](distro.jpg)
 
 ## Linguagens utilizadas
-* python para o servidor e para os sensores
-* ruby para o cliente
+* Python para o servidor e para os sensores
+* Ruby para o cliente
   
   
 ### Servidor 
@@ -123,5 +123,17 @@ message Response {
 
 ## Obs 
 * Para o RabbitMQ utilizar o app.py
-   
+
+
+![RabbitMQ](RabbitMQ.png)
+
+
+## Linguagem utilizada
+* Python
+  
+
+## Estratégia
+Pegamos a idéia utilizada no modelo original e colocamos o broker, RabbitMQ, para efetuar as transações de mensagens que ocorriam entre a aplicação e o servidor, para dar mais consistência e segurança para a comunicação.
+
+Foi criado um Exchange Default para enviar as solicitações da aplicação para o servidor, e um outro Default para transmitir a resposta do servidor para a aplicação. Enquanto os sensores e o servidor continuam se comunicar via UDP, do mesmo jeito que o modelo original.
 
