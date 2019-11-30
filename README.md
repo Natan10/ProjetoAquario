@@ -117,3 +117,11 @@ message Response {
   string conteudo = 2;
 }
 ~~~
+
+
+# RabbitMq
+
+## Obs 
+* Para o RabbitMQ utilizar o app.py
+   
+
