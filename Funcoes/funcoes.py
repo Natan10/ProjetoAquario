@@ -24,9 +24,9 @@ def config_cliente(host="",port=5205):
 #Função de escolha da assinatura dos dispositivos
 def assinar_disp(dispositivos,escolha):
   escolha.clear()
-  print("Para fechar digite 's' ou 'sair'")
+  #print("Para fechar digite 's' ou 'sair'")
   while True:
-    d = input("assinar dispositivo:").lower()
+    d = input("R: ").lower()
     if d in ['s','sair']:
       break
     elif d not in dispositivos:
