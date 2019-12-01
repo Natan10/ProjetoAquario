@@ -17,8 +17,8 @@ luz = Luz('Lampada')
 
 #Se idetificando para o servidor
 cliente.sendto(p.dumps(['1','lamp']),('',5000))
-funcoes = ['1:get_nome','2:get_estado_luz','3:set_estado_luz']
-validacao = ['1','2','3']
+funcoes = ['1:get_nome','2:get_estado_luz','3:set_estado_luz','4:get_tempo_ligada']
+validacao = ['1','2','3','4']
 
 print("Iniciando Lampada...")
 
